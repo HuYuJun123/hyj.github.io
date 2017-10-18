@@ -1,0 +1,8 @@
+@media screen and (max-width:1210px ){
+    main{
+        padding: 0 10px;
+    }
+    .banner-zuo{
+        display: none;
+    }
+}

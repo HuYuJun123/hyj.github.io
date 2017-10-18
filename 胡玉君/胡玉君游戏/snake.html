@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>snake</title>
+    <!--<script src="animate.js"></script>-->
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .box{
+        width: 600px;
+        height: 600px;
+        margin: 0 auto;
+        border: 1px solid #000;
+        overflow: hidden;
+        position: relative;
+        background: black;
+        /*background: url("img/u=3887657526,2983237084&fm=26&gp=0.jpg") center;*/
+        /*background-size: cover;*/
+        /*background: green;*/
+    }
+
+    .box div{
+        width: 30px;
+        height: 30px;
+        box-sizing: border-box;
+        /*border: 1px solid #000;*/
+        float: left;
+
+    }
+    .she{
+        width: 30px;
+        height: 30px;
+        background: orangered;
+        border-radius: 50%;
+    }
+    .food{
+       background: greenyellow;
+    }
+    main.fenshu{
+        position: fixed;
+        top:200px;
+        right: 200px;
+        font-size: 50px;
+        line-height: 100px;
+        text-align: center;
+    }
+    main.jishi{
+        position: fixed;
+        top:200px;
+        left: 200px;
+        font-size: 50px;
+        line-height: 100px;
+        text-align: center;
+    }
+</style>
+<body>
+   <div class="box">
+       <main class="jishi">计时: <span>0</span>秒</main>
+       <main class="fenshu">得分: <span>0</span>分</main>
+   </div>
+</body>
+</html>
+<script>
+    let box=document.querySelector('.box');  //获取.box
+    for(var i=0;i<20;i++){
+        for(var j=0;j<20;j++){   //给div加上id          p
+            let div=document.createElement('div');
+            div.id='r'+j+'-'+i;
+            box.appendChild(div);
+        }
+
+    }
+
+    var she=[
+        {x:0,y:0},{x:1,y:0},{x:2,y:0}
+    ]
+    she.forEach(function (value) {
+        var obj=document.querySelector('#r'+value.x+'-'+value.y);
+        obj.classList.add('she');
+    })
+
+    var food=getfood();
+    function getfood() {
+        do{
+           var x=Math.floor(Math.random()*20);
+           var y=Math.floor(Math.random()*20);
+        }while(check(x,y));
+        var obj=document.querySelector('#r'+x+'-'+y);
+        obj.classList.add('food');
+        return {x:x,y:y};
+    }
+    function check(m,n){
+        var result=she.some(function (value) {
+            return value.x==m&&value.y==n;
+        })
+        return result;
+    }
+
+    var way="right";
+    function move(){
+        var oldhead=she[she.length-1];
+        var newheadx;
+        var newheady;
+        switch (way){
+            case 'right':newheadx=oldhead.x+1;
+                         newheady=oldhead.y;
+                         break;
+            case 'left':newheadx=oldhead.x-1;
+                        newheady=oldhead.y;
+                        break;
+            case 'bottom':newheadx=oldhead.x;
+                          newheady=oldhead.y+1;
+                        break;
+            case 'top':newheadx=oldhead.x;
+                       newheady=oldhead.y-1;
+                        break;
+        }
+        if(newheadx<0||newheadx>19||newheady<0||newheady>19||check(newheadx,newheady)){
+            alert('game over!');
+            clearInterval(t);
+            return;
+        }
+        var newheadobj=document.querySelector('#r'+newheadx+'-'+newheady);
+        newheadobj.classList.add('she');
+        she.push({x:newheadx,y:newheady});
+        let fenshu=0;
+        if(newheadx==food.x&&newheady==food.y){
+            fenshu++;
+            document.querySelector(".fenshu>span").innerHTML=fenshu
+            document.querySelector(".food").classList.remove("food")
+            food=getfood();
+
+        }else{
+            var endheadobj=document.querySelector('#r'+she[0].x+'-'+she[0].y);
+            endheadobj.classList.remove('she');
+            she.shift();
+        }
+    }
+    var t=setInterval(move,400);
+
+       document.onkeydown=function (e) {
+           var key=e.keyCode;
+           if(key==37){
+               if(way=='right') {
+                   return;
+               }
+               way='left';
+           }
+           if(key==38){
+             if(way=='bottom') {
+               return;
+           }
+               way='top';
+           }
+           if(key==39){
+               if(way=='left') {
+               return;
+           }
+               way='right';
+           }
+           if(key==40){
+              if(way=='top') {
+               return;
+           }
+               way='bottom';
+           }
+       }
+    let shijian=0;
+
+    let jishi=setInterval(function () {
+        shijian++
+        document.querySelector(".jishi>span").innerHTML=shijian
+    },1000)
+
+
+</script>

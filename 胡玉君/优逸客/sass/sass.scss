@@ -1,0 +1,76 @@
+//$cl:red;
+//$wi:500px;
+//$he:500px;
+//$arr:10px 20px 30px 40px;
+//$brr:10px,20px,30px.40px;
+//div{
+//  background: $cl;
+//  width: $wi;
+//  height: $he+20px;
+//  padding: $arr;
+//  color: $cl;
+//  text-align: center;
+//  ul{
+//    width: 100%;
+//    height: 100%;
+//    background: darkorange;
+//    padding: $arr;
+//    >li{
+//      width: 50%;
+//      height: 5%;
+//      margin: 10px auto;
+//      background: blue;
+//      line-height: 22px;
+//    }
+//  }
+//}
+*{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+@mixin box($e,$a,$b,$c,$d){
+  @if($e){
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    background: black;
+  }@else {
+    width: $a;
+    height: $b;
+    padding: $c;
+    background: $d;
+  }
+}
+$str:margin;
+$col:color;
+$se:white;
+div{
+  @include box(false,200px,600px,20px,red);
+  #{$col}:$se;
+  ul{
+    @include box(true,1,1,1,1);
+    li{
+      @include box(false,50%,5%,5px,green);
+      #{$str}: 10px auto;
+    }
+  }
+}
+@function fun($fun){
+  @return #{$fun}px
+}
+.box{
+  width: fun(100);
+}
+
+$arr:lg,ms,xs,md;
+@each $a in $arr{
+  @for $i from 1 through 12{
+    .co-#{$a}-#{$i}{
+      width: 100%/12*$i;
+      float: left;
+    }
+  }
+}
+

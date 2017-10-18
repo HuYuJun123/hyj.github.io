@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="canvas.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+    }
+
+    .fun {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 5%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 10px;
+    }
+
+    canvas {
+        position: fixed;
+        right: 0;
+        top: 0;
+        border: 1px solid #000;
+    }
+
+    .shape {
+        width: 100%;
+        height: 200px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .shape > div {
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        font-size: 20px;
+        color: white;
+        border-bottom: 1px solid white;
+        font-weight: bold;
+    }
+
+    .shape > button {
+        line-height: 30px;
+        text-align: center;
+        font-size: 12px;
+        color: white;
+        width: 45%;
+        height: 30px;
+        border: 1px solid white;
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .active {
+        transform: scale(1.2);
+        border: 0 !important;
+        line-height: 27px !important;
+        background: white !important;
+        color: black !important;
+    }
+
+    .style {
+        height: 150px;
+    }
+
+    .style > button {
+        width: 100%;
+    }
+
+    .color > input {
+        width: 25px;
+        height: 25px;
+        border: 1px solid white;
+    }
+
+    .function {
+        height: 100px;
+    }
+
+    .function > button {
+        width: 100%;
+    }
+
+    .color {
+        color: white;
+        width: 100%;
+        height: 60px !important;
+        font-size: 12px !important;
+        border: 1px solid white;
+        background: rgba(0, 0, 0, 0.8);
+    }
+</style>
+<body>
+<div class="fun">
+    <div class="shape shape1">
+        <div>shape</div>
+        <button class="rect active">rect</button>
+        <button class="arc">arc</button>
+        <button class="line">line</button>
+        <button class="poly">poly</button>
+        <button class="text">text</button>
+    </div>
+    <div class="shape style">
+        <div>style</div>
+        <button class="stroke active">stroke</button>
+        <button class="fill">fill</button>
+    </div>
+    <div class="colorda shape">
+        <div>color</div>
+        <div class="color color1">纯&nbsp;色 <input type="color" name="color"></div>
+        <div class="color color2">渐变色 <input type="color" name="color1"></div>
+    </div>
+    <div class="shape function">
+        <div>fun</div>
+        <button class="return">return</button>
+    </div>
+</div>
+<canvas></canvas>
+</body>
+</html>
+<script>
+    window.onload = function () {
+        let canvas = document.querySelector("canvas")
+        canvas.width = document.body.offsetWidth * 0.95
+        canvas.height = document.body.offsetHeight
+        let obj = new Canvas(canvas)
+        document.querySelector(".poly").onclick = function () {
+            obj.n = prompt("请问您想要几边形", "3")
+        }
+        document.querySelector("input[name=color]").onchange = function () {
+            flag=true
+            obj.colorarr=[]
+            obj.color = document.querySelector("input[type=color]").value
+        }
+        canvas.onmousedown = function (e) {
+            let x = e.offsetX
+            let y = e.offsetY
+            canvas.onmousemove = function (e) {
+                obj.clear()
+                let x1 = e.offsetX
+                let y1 = e.offsetY
+                if (obj.colorarr.length>0){
+                    obj.shade(x, y, x1, y1)
+                }
+                switch (obj.shape) {
+                    case "rect":
+                        obj.rect(x, y, x1, y1);
+                        break;
+                    case "arc":
+                        obj.arc(x, y, x1, y1);
+                        break;
+                    case "line":
+                        obj.line(x, y, x1, y1);
+                        break;
+                    case "poly":
+                        obj.poly(x, y, x1, y1);
+                        break;
+                }
+            }
+            canvas.onmouseup = function () {
+                if (obj.shape == "text") {
+                    obj.textzi = prompt("请输入你的内容")
+                    obj.textsize = prompt("请输入你想要的字体大小", "12")
+                    obj.text(x, y)
+                }
+                canvas.onmousemove = null
+                obj.save()
+            }
+
+        }
+        let shape = document.querySelector(".shape1")
+        let shapes = document.querySelectorAll(".shape1>button")
+        shape.onclick = function (e) {
+            let dian = e.target
+            if (dian.nodeName == "BUTTON") {
+                shapes.forEach(function (a) {
+                    a.classList.remove("active")
+                })
+                obj.shape = dian.className
+                dian.classList.add("active")
+            }
+        }
+        let del = document.querySelector(".return")
+        del.onmousedown = function () {
+            del.classList.add("active")
+            del.onmouseup = function () {
+                del.classList.remove("active")
+                obj.dele()
+            }
+        }
+        let style = document.querySelector(".style")
+        let styles = document.querySelectorAll(".style>button")
+        style.onclick = function (e) {
+            let dian = e.target
+            if (dian.nodeName == "BUTTON") {
+                styles.forEach(function (a) {
+                    a.classList.remove("active")
+                })
+                obj.style = dian.className
+                dian.classList.add("active")
+            }
+        }
+        let flag=true
+        document.querySelector("input[name=color1]").onmousedown=function () {
+            if (obj.colorarr==0&&flag){
+                obj.colorway=prompt("请输入渐变样式","radial")
+                if (obj.colorway){
+                    flag=false
+                }
+            }
+        }
+        document.querySelector("input[name=color1]").onchange = function () {
+            obj.colorarr.push(document.querySelector("input[name=color1]").value)
+        }
+    }
+</script>

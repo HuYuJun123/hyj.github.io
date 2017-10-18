@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="jquery.min.js"></script>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        box-sizing: border-box;
+    }
+    body,html{
+        width: 100%;
+        height: 100%;
+        background: #333;
+    }
+    header{
+        background: #000;
+        width: 100%;
+        height: 50px;
+    }
+    header>div{
+        width: 60%;
+        height: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+    }
+    header>div>h1{
+        width: 20%;
+        height: 100%;
+        line-height: 50px;
+        color: #fff;
+    }
+    header>div>input{
+        width: 60%;
+        height: 30px;
+        margin-top: 10px;
+        border-radius: 10px;
+        padding-left: 5px;
+        border: 0;
+    }
+    .done,.doing{
+        width:800px;
+        height:auto;
+        margin: 0 auto;
+        padding:10px 0;
+    }
+    .done h2,.doing h2{
+        width:100%;
+        height:40px;
+        font-size: 30px;
+        color: #ccc;
+        position: relative;
+    }
+    .doing h2 {
+        color: red;
+    }
+    .done h2 span,.doing h2 span{
+        position: absolute;
+        right:5px;
+        top:10px;
+        width:20px;
+        height:20px;
+        font-size: 16px;
+        background-color: #888;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+    }
+    .done li,.doing li{
+        width:100%;
+        height:40px;
+        position: relative;
+        background-color: #ccc;
+        margin-top: 5px;
+        line-height: 40px;
+        font-size: 20px;
+    }
+    .done li p,.doing li p{
+        width:100%;
+        height:100%;
+        box-sizing: border-box;
+        padding-left:10%;
+    }
+    .done li div,.doing li div{
+        position: absolute;
+        right:40px;
+        top:0;
+        font-size: 12px;
+    }
+    .done li input,.doing li input{
+        position: absolute;
+        left:30px;
+        top:15px;
+    }
+    .done li span,.doing li span{
+        position: absolute;
+        right:5px;
+        top:10px;
+        width:20px;
+        height:20px;
+        font-size: 16px;
+        background-color: #888;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+        color: #fff;
+    }
+
+</style>
+<body>
+<header><div><h1>Todolist</h1><input type="text" placeholder="输入todo"></div></header>
+<section id="mess">
+    <section class="doing">
+        <h2>正在进行  <span>0</span> </h2>
+        <ul>
+            <!--<li>-->
+            <!--<div>00-00-00</div>-->
+            <!--<input type="checkbox">-->
+            <!--<p>这是内容</p>-->
+            <!--<span>X</span>-->
+            <!--</li>-->
+
+        </ul>
+    </section>
+    <section class="done">
+        <h2>已经完成  <span>0</span> </h2>
+        <ul>
+
+        </ul>
+    </section>
+</section>
+<!--<div contenteditable="true">ad4a5454a </div>-->
+
+</body>
+</html>
+
+<script>
+    console.log(Date.now())
+    $(document).ready(function () {
+//        let dbas=[{id:1499852406214,flag:true,text:"好好学习"},
+//            {id:1499852520040,flag:false,text:"好好学习123"},
+//            {id:1499852512717,flag:true,text:"好好学习"}]
+//        localStorage.todo=JSON.stringify(dbas)
+        let dbas=[]
+        localStorage.todo=JSON.stringify(dbas)
+        sint()
+        function sint() {
+            $("#mess ul").html("")
+            dbas=JSON.parse(localStorage.todo)
+            $.each(dbas,function (a,b) {
+                let li=$(`<li id=${b.id}>`)
+                let date = new Date(b.id);
+                let time=`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}&nbsp;&nbsp;&nbsp;${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+                if(b.flag){
+                    li.html(` <input type="checkbox" >
+                                 <div>${time}</div>
+                                 <p contenteditable="true">${b.text}</p>
+                                 <span>X</span>`)
+                    li.appendTo($(".doing>ul"))
+                }else {
+                    li.html(` <input type="checkbox" checked >
+                                <div>${time}</div>
+                                 <p contenteditable="true">${b.text}</p>
+                                 <span>X</span>`)
+                    li.appendTo($(".done>ul"))
+                }
+            })
+            $(".doing h2 span").html($(".doing ul li").length)
+            $(".done h2 span").html($(".done ul li").length)
+        }
+
+        $(document).keydown(function (e) {
+            let val=$("header input").val()
+            if(e.which==13&&val){
+                $("header input").val("")
+                dbas.push({id:Date.now(),flag:true,text:`${val}`})
+                localStorage.todo=JSON.stringify(dbas)
+                sint()
+            }
+        })
+        $("#mess").delegate("input[type=checkbox]","click",function () {
+            let way=$(this).attr("checked")
+            let id=$(this).parent().attr("id")
+            let n=dbas.findIndex(function (a,b) {
+              return a.id==id
+            })
+            if(way){
+                dbas[n].flag=true;
+            }else {
+                dbas[n].flag=false;
+            }
+            localStorage.todo=JSON.stringify(dbas)
+            sint()
+        })
+        $("#mess").delegate("ul span","click",function () {
+            let id=$(this).parent().attr("id")
+            let n=dbas.findIndex(function (a,b) {
+                return a.id==id
+            })
+            dbas.splice(n,1)
+            localStorage.todo=JSON.stringify(dbas)
+            sint()
+        })
+        $("#mess").delegate("ul p","click",function () {
+            let val=$(this).val()
+            let id=$(this).parent().attr("id")
+            let n=dbas.findIndex(function (a,b) {
+                return a.id==id
+            })
+            dbas[n].text=val
+            localStorage.todo=JSON.stringify(dbas)
+            sint()
+        })
+    })
+</script>

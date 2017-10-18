@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<body>
+<style>
+    .dd{
+        width: 202px;
+        height: 202px;
+        border: 1px solid #000;
+        overflow: hidden;
+    }
+    .da{
+        width: 200px;
+        height: 200px;
+        background: url("img/6.jpg") center;
+        position: relative;
+        transition: all 0.5s;
+        transform-style: preserve-3d;
+        background-size: cover;
+    }
+    /*.da:after{*/
+        /*content: "";*/
+        /*position: absolute;*/
+        /*top: 0;*/
+        /*left: 0;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*background: blue;*/
+        /*transform: rotateY(90deg);*/
+        /*transform-origin: left bottom;*/
+    /*}*/
+    .xiao{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("img/1.jpg") center;
+        background-size: cover;
+        /*transform: rotateY(90deg);*/
+        transform-style: preserve-3d;
+
+        transform-origin: left bottom;
+    }
+    .dd:hover .da{
+        transform: rotateY(-90deg);
+    }
+    .dd:hover .xiao{
+        transform: rotateY(-90deg);
+    }
+
+</style>
+<div class="dd">
+<div class="da">
+    <div class="xiao"></div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,750 @@
+* {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f2f2f2;
+}
+
+@mixin gk($a,$b) {
+  width: #{$a}px;
+  height: #{$b}px;
+}
+
+@mixin jz {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+}
+
+@mixin dw($a,$b) {
+  $boeder: 8;
+  @for $i from 1 to 6 {
+    li:nth-of-type(#{$i}) {
+      @if ($i==1) {
+        width: #{$a}px;
+        height: #{$a}px;
+        top: #{-$a/2}px;
+        margin-left: #{-$a/2}px;
+        line-height: #{$a - $boeder*2}px;
+        p {
+          left: -15px;
+        }
+      } @else if ($i==5) {
+        width: #{$a}px;
+        height: #{$a}px;
+        top: #{-$a/2}px;
+        margin-left: #{-$a/2}px;
+        line-height: #{$a - $boeder*2}px;
+        p {
+          left: -15px;
+        }
+      } @else {
+        width: #{$b}px;
+        height: #{$b}px;
+        top: #{-$b/2}px;
+        margin-left: #{-$b/2}px;
+        line-height: #{$b - $boeder*2}px;
+        p {
+          left: -25px;
+        }
+      }
+      $i: $i - 1;
+      left: 100%/4*$i;
+      background: white;
+      border: #{$boeder}px solid #444;
+      margin-top: 5px;
+      border-radius: 50%;
+    }
+  }
+}
+
+@mixin wd($a,$b) {
+  $boeder: 8;
+  @for $i from 1 to 6 {
+    li:nth-of-type(#{$i}) {
+      @if ($i==1) {
+        width: #{$a}px;
+        height: #{$a}px;
+        left: #{-$a/2}px;
+        margin-top: #{-$a/2}px;
+        line-height: #{$a - $boeder*2}px;
+        p {
+          left: #{$a/2}px;
+        }
+      } @else if ($i==5) {
+        width: #{$a}px;
+        height: #{$a}px;
+        left: #{-$a/2}px;
+        margin-top: #{-$a/2}px;
+        line-height: #{$a - $boeder*2}px;
+        p {
+          left: #{$a/2}px;
+        }
+      } @else {
+        width: #{$b}px;
+        height: #{$b}px;
+        left: #{-$b/2}px;
+        margin-top: #{-$b/2}px;
+        line-height: #{$b - $boeder*2}px;
+        p {
+          left: #{$b/2}px;
+        }
+      }
+      $i: $i - 1;
+      top: 100%/4*$i;
+      background: white;
+      border: #{$boeder}px solid #444;
+      margin-left: 5px;
+      border-radius: 50%;
+    }
+  }
+}
+
+@mixin bt() {
+  @for $i from 1 to 9 {
+    li:nth-of-type(#{$i})>div {
+      width: 100%;
+      height: 100%;
+      background: url("../img/#{$i}.jpg") center no-repeat;
+      background-size: auto 100%;
+      border-radius: 20px;
+    }
+  }
+}
+
+//#78A1CF
+@keyframes header1 {
+  0%{
+    opacity: 0;
+    transform: scale(0.1);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+header {
+  position: relative;
+  height: 700px;
+  background: url("../img/banna.jpg") 50% 0%;
+  border-bottom: 2px solid #333;
+  div:nth-of-type(1) {
+    @include jz;
+    width: 100%;
+    height: 50%;
+    color: white;
+    text-align: center;
+    animation:header1 1s ;
+    p:hover{
+      transform: scale(1.1);
+    }
+    p {
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 30px;
+    }
+    p:nth-of-type(1) {
+      font-size: 60px;
+      line-height: 150px;
+    }
+  }
+  div:nth-of-type(2) {
+    @include gk(200, 200);
+    border-radius: 50%;
+    border: 10px solid white;
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: 0 0 6px 0 #333;
+    background: url("../img/header.jpg") center center no-repeat;
+    background-size: auto 200px;
+    transition: transform 1s;
+  }
+  div:nth-of-type(2):hover{
+    transform: rotate(360deg);
+    transform: blue(#fff);
+  }
+}
+
+.JieShou {
+  max-width: 1200px;
+  padding: 0 20px;
+  text-align: center;
+  margin: 150px auto 0;
+  div {
+    border-radius: 10px;
+    padding: 10px;
+    div {
+      width: 200px;
+      height: 50px;
+      line-height: 30px;
+      background: #F6431F;
+      margin: 40px auto;
+      color: white;
+      font-size: 20px;
+      transition: background 0.5s,transform 0.5s;
+    }
+    div:hover {
+      background: #444;
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+    h2 {
+      font-size: 40px;
+      line-height: 80px;
+      margin-top: -10px;
+      color: #333;
+    }
+    h4 {
+      margin-top: -20px;
+      line-height: 40px;
+      color: #444;
+    }
+    p {
+      color: #555;
+    }
+    p:hover{
+      transform: scale(1.1);
+      color: #444;
+    }
+  }
+}
+
+.Change {
+  border-top: 1px dashed #666;
+  max-width: 1200px;
+  padding: 50px;
+  text-align: center;
+  margin: 50px auto 0;
+  h2 {
+    font-size: 40px;
+    line-height: 80px;
+    margin-top: -10px;
+    color: #333;
+  }
+  h4 {
+    margin-top: -20px;
+    line-height: 40px;
+    color: #444;
+  }
+  ul {
+    position: relative;
+    width: 10px;
+    height: 400px;
+    margin: 100px 0 0 0;
+    background: #444;
+    li:hover {
+      transform: scale(1.1);
+    }
+    li {
+      position: absolute;
+      text-align: center;
+      color: #F6431F;
+      transition: transform 0.5s;
+      cursor: pointer;
+      p {
+        width: 250px;
+        text-align: right;
+        color: #666;
+        position: absolute;
+        left: 200px;
+        top: 0px;
+        font-size: 20px;
+        transition: opacity 0.5s, top 0.5s;
+      }
+    }
+    @include wd(80, 50)
+  }
+  div {
+    width: 100%;
+    margin-top: 100px;
+    p {
+      font-size: 35px;
+      span {
+        color: #F6431F;
+      }
+    }
+    p:nth-of-type(1) {
+      text-align: left;
+    }
+    p:nth-of-type(2) {
+      text-align: right;
+    }
+  }
+}
+
+@keyframes fanzhuang {
+  0%{
+    transform: rotateY(0deg);
+  }
+  100%{
+    transform: rotateY(360deg);
+  }
+}
+@mixin fzyc($a){
+  @for $i from 1 to 9{
+    li:nth-of-type(#{$i}){
+      >div.active{
+        animation: fanzhuang 0.5s #{$i*$a}s;
+      }
+    }
+  }
+}
+.live{
+  @include fzyc(0.2);
+}
+
+.skill {
+  width: 100%;
+  height: 500px;
+  text-align: center;
+  margin: 50px auto 0;
+  background: url("../img/skill.jpg") center -175px no-repeat;
+  overflow: hidden;
+  h2 {
+    font-size: 40px;
+    line-height: 80px;
+    margin-top: 30px;
+    color: white;
+  }
+  h4 {
+    margin-top: -20px;
+    line-height: 40px;
+    color: white;
+  }
+  ul {
+    max-width: 1200px;
+    height: 350px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+    li {
+      width: 100%;
+      height: 16%;
+      padding: 0 10px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      > div {
+        width: 50px;
+        height: 50px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 50%;
+        position: relative;
+        overflow: hidden;
+        p {
+          @include jz();
+          height: 100%;
+          z-index: 2;
+          color: white;
+          line-height: 50px;
+          text-align: center;
+          font-size: 14px;
+        }
+        .xiao {
+          width: 50%;
+          height: 100%;
+          float: left;
+          overflow: hidden;
+          position: relative;
+          .da {
+            width: 200%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            .da-0 {
+              width: 50%;
+              height: 100%;
+              position: absolute;
+              top: 0;
+              overflow: hidden;
+              .da-1 {
+                position: absolute;
+                top: 0;
+                width: 200%;
+                height: 100%;
+                border-radius: 50%;
+                border: 5px solid #78A1CF;
+              }
+            }
+          }
+        }
+        .xiao-l {
+          .da {
+            left: 0;
+            transform: rotate(180deg);
+            .da-0 {
+              left: 0;
+              .da-1 {
+                left: 0;
+              }
+            }
+          }
+        }
+        .xiao-r {
+          .da {
+            right: 0;
+            transform: rotate(180deg);
+            .da-0 {
+              right: 0;
+              .da-1 {
+                right: 0;
+              }
+            }
+          }
+
+        }
+      }
+      p {
+        color: white;
+        width: 80%;
+        height: 100%;
+      }
+    }
+  }
+}
+
+
+@keyframes mover {
+  0%{
+    transform: rotate(180deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+@mixin roa($a,$b,$c,$d,$e,$f){
+  @for $i from 1 to 7{
+    @keyframes move#{$i} {
+      0%{
+        transform: rotate(180deg);
+      }
+      100%{
+        @if($i==1){
+          transform: rotate(#{360*$a}deg);
+        }@else if($i==2){
+          transform: rotate(#{360*$b}deg);
+        }@else if($i==3){
+          transform: rotate(#{360*$c}deg);
+        }@else if($i==4){
+          transform: rotate(#{360*$d}deg);
+        }@else if($i==5){
+          transform: rotate(#{360*$e}deg);
+        }@else if($i==6){
+          transform: rotate(#{360*$f}deg);
+        }
+      }
+    }
+    li:nth-of-type(#{$i}){
+      .xiao-l{
+        .da.active{
+          animation:move#{$i}  0.5s 0.5s forwards;
+          animation-timing-function:cubic-bezier(0, 0, 0.52, 0.99);
+        }
+      }
+    }
+  }
+}
+.skill{
+  li{
+    .xiao-r{
+      .da.active{
+       animation: mover 0.5s forwards;
+       animation-timing-function: cubic-bezier(0.38,-0.01, 1, 1);
+      }
+    }
+  }
+@include roa(0.65,0.75,0.8,0.9,0.85,0.7);
+}
+
+.live {
+  width: 100%;
+  margin: 50px auto 0;
+  text-align: center;
+  overflow: hidden;
+  h2 {
+    font-size: 40px;
+    line-height: 80px;
+    margin-top: 30px;
+    color: #444;
+  }
+  h4 {
+    margin-top: -20px;
+    line-height: 40px;
+    color: #444;
+  }
+  ul {
+    max-width: 1200px;
+    margin: 0 auto;
+    li {
+      height: 400px;
+      padding: 10px 40px;
+      overflow: hidden;
+      div:hover div{
+        opacity: 1;
+      }
+      div {
+        position: relative;
+        div {
+          transition: opacity 0.5s;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 20px;
+          line-height: 380px;
+          color: white;
+          font-size: 72px;
+          opacity: 0;
+          background: rgba(0,0,0 ,0.6);
+          z-index: 1;
+          cursor: pointer;
+        }
+      }
+    }
+    @include bt();
+  }
+
+}
+
+.call{
+  width: 100%;
+  height: 300px;
+  background: #666;
+  >div{
+    max-width: 1240px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 20px;
+    h2{
+      color: white;
+    }
+    textarea{
+      width: 100%;
+      height: 60%;
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+    }
+  }
+}
+
+footer{
+  width: 100%;
+  height: 450px;
+  background: #444;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  span{
+      width: 100%;
+    text-align: center;
+    color: white;
+  }
+  >div{
+    overflow: hidden;
+    width: 50%;
+    height: 90%;
+    position: relative;
+    border-radius: 20px;
+    margin-top: 10px;
+    background: #666;
+    >ul{
+      position: absolute;
+      top: 0;
+      left: 0%;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: space-around;
+      justify-content: space-around;
+      width: 200% ;
+      height: 100%;
+      padding: 50px;
+      >li{
+        width: 50px;
+        height: 50px;
+        background:white ;
+        color: #666;
+        font-size: 30px;
+        line-height: 50px;
+        border-radius: 50%;
+      }
+      text-align: center;
+      p{
+        font-size: 30px;
+        line-height: 50px;
+        text-align: center;
+        width: 100%;
+        color: white;
+      }
+      ul{
+        width: 100%;
+        overflow: hidden;
+        li{
+          width: 100%;
+          height: 5px;
+          background: #fff;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+  .foo2{
+    background: #fff;
+    ul{
+      left: -100%;
+      p{
+        color: #666;
+      }
+      ul{
+        li{
+          background: #666;
+        }
+      }
+      >li{
+        background: #666;
+        color: white;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 468px) {
+  .Change {
+    ul {
+      width: 90%;
+      height: 10px;
+      margin: 100px auto;
+      @include dw(80, 50);
+      li:hover p {
+        opacity: 1;
+        top: -70px;
+      }
+      li {
+        p {
+          width: 100px;
+          text-align: center;
+          opacity: 0;
+          top: 0px;
+        }
+      }
+    }
+
+  }
+}
+
+@media screen and (min-width: 768px) {
+  header {
+    height: 650px;
+    background-position: 65% 0%;
+    p:nth-of-type(1) {
+      font-size: 70px !important;;
+    }
+  }
+  .skill {
+    ul {
+      li {
+        width: 50%;
+        height: 33%;
+        >div:hover p{
+          transform: scale(1.1);
+        }
+        >div {
+          width: 100px;
+          height: 100px;
+          cursor: pointer;
+          p{
+            line-height: 80px;
+            font-size: 20px;
+          }
+          .da-1{
+            border: 10px solid #78A1CF!important;
+          }
+        }
+        p {
+          width: 70%;
+          padding: 10px 5px;
+        }
+      }
+    }
+  }
+  footer{
+    div{
+      >ul{
+        width: 100%;
+        left: 50%;
+      }
+    }
+    .foo2{
+      >ul{
+        left: -50% ;
+      }
+    }
+  }
+  .live{
+    ul{
+      li{
+        height: 300px;
+        padding: 20px;
+        div{
+          div{
+            line-height: 260px!important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  header {
+    background-position: 50% 0%;
+    p:nth-of-type(1) {
+      font-size: 80px !important;
+    }
+  }
+  .skill {
+    ul {
+      li {
+        width: 16%;
+        height: 100%;
+        margin-top: 20px;
+        >div {
+          width: 130px;
+          height: 130px;
+          p{
+            line-height: 110px;
+            font-size: 30px;
+          }
+        }
+        p {
+          width: 100%;
+          height: 200px;
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  header {
+    background-position: 25% 0%;
+    p:nth-of-type(1) {
+      font-size: 90px !important;
+    }
+  }
+}

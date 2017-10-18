@@ -1,0 +1,65 @@
+$pad: 15px;
+@mixin sesg($type) {
+  @for $i from 1 through 12 {
+    .col-#{$type}-#{$i} {
+      width: 100%/12*$i;
+      padding:0 $pad;
+      float: left;
+    }
+    .col-#{$type}-offset-#{$i} {
+      margin-right: -$pad;
+      margin-left: -$pad;
+    }
+    .col-#{$type}-pull-#{$i} {
+      left: 100%/12*$i;
+    }
+    .col-#{$type}-push-#{$i} {
+      right: 100%/12*$i;
+    }
+  }
+  .col-#{$type}-hiddn {
+    display: none;
+  }
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: -$pad;
+}
+@include sesg(xs)
+@media screen and (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+  @include sesg(sm)
+}
+
+@media screen and (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+  @include sesg(md)
+}
+
+@media screen and (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+  @include sesg(lg)
+}
+
+
+.row {
+  height: auto;
+  margin-left: -$pad;
+  margin-right: -$pad;
+  overflow: hidden;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+}

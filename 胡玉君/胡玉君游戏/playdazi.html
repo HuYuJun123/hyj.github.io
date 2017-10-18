@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>playdazi</title>
+    <script src="function.js"></script>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    body, html {
+        width: 100%;
+        background: #333333;
+    }
+
+    header {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        line-height: 30px;
+        padding: 10px 100px;
+        background: #333333;
+        color: white;
+    }
+
+    main {
+        width: 90%;
+        height: 100px;
+        background: skyblue;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        position: absolute;
+    }
+.body{
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+}
+    .jieshu {
+        width: 100%;
+        height: 20px;
+        background: green;
+        position: fixed;
+        bottom: 20px;
+    }
+</style>
+<body>
+<!--<img class="body" src="img/img/sc160701_1a.jpg" alt="">-->
+<header>
+    <div class="live">生命值：<span>10</span></div>
+    <div class="fenshu">得分：<span>0</span></div>
+</header>
+<main>
+</main>
+<div class="jieshu"></div>
+</body>
+</html>
+<script>
+    $(function () {
+        function Dzyx(dom) {
+            this.dom = dom;
+            this.length = 1;
+            this.letterarr = [];
+            this.left = [];
+            this.maxtop = dom.offsetTop - 150;
+            this.live = 10;
+            this.fenshu = 0;
+            this.speed=10;
+//            this.t=setInterval(this.getmove,200)
+        }
+
+        Dzyx.prototype = {
+            getletter: function () {
+                for (let i = 0; i < this.length; i++) {
+                    this.getrodam()
+                }
+            },
+            getrodam: function () {
+                do {
+                    var letter = String.fromCharCode(Math.floor(Math.random() * 26 + 65));
+                } while (this.check(letter))
+                var left = Math.floor(Math.random() * 1200);
+                var top = Math.floor(Math.random() * 50);
+                this.left.push(left);
+                let img = document.createElement("img");
+                img.src = `img/img/${letter}.jpg`;
+                img.alt = letter;
+                img.style.left = `${left}px`
+                img.style.top = `${top}px`
+                this.letterarr.push(img)
+                let main = $("main")
+                main.appendChild(img);
+            },
+            check: function (b) {
+                return this.letterarr.some(function (a) {
+                    return a.alt == b;
+                })
+            },
+            getmove: function () {
+                let that = this
+                function move() {
+                    for (let i = 0; i < that.letterarr.length; i++) {
+                        let top = that.letterarr[i].offsetTop + that.speed;
+                        that.letterarr[i].style.top = top + "px";
+                        if (top > that.maxtop) {
+                            that.live--
+                            if (that.live <= 0) {
+                                alert(`你的得分是${that.fenshu}`)
+                                clearInterval(that.t)
+                            }
+                            let live = $(".live>span");
+                            live.innerHTML = that.live;
+                            let main = $("main");
+                            main.removeChild(that.letterarr[i]);
+                            that.letterarr.splice(i, 1)
+
+                            that.getrodam()
+                        }
+                    }
+                }
+
+                this.t = setInterval(move, 200)
+
+            },
+            getxiuchhu: function () {
+                let that = this
+                document.onkeydown = function (e) {
+                    let what = e.keyCode;
+                    let whats = String.fromCharCode(what)
+                    for (let i = 0; i < that.letterarr.length; i++) {
+                        if (that.letterarr[i].alt == whats) {
+                            that.fenshu++
+                            if (that.fenshu==2){
+                                let result=confirm("是否进入下一关")
+                                if (result){
+                                    console.log(that.t)
+                                    clearInterval(that.t)
+                                    that.nextplay()
+                                }else {
+                                    window.close()
+                                }
+                            }
+                            let fen = $(".fenshu>span");
+                            fen.innerHTML = that.fenshu;
+                            let main = $("main");
+                            main.removeChild(that.letterarr[i])
+                            that.letterarr.splice(i, 1)
+                            that.getrodam()
+                        }
+                    }
+                }
+            },
+            nextplay:function () {
+                this.fenshu=0;
+                this.live+=1;
+                let live = $(".live>span");
+                live.innerHTML = this.live;
+                this.length+=1;
+                this.letterarr.forEach(function (a) {
+                    let main = $("main");
+                    main.removeChild(a);
+                })
+                this.letterarr=[];
+                this.speed++;
+                this.getletter();
+                this.getmove();
+                this.getxiuchhu();
+                console.log(this.t)
+            }
+        }
+
+        let jieshu = $(".jieshu")
+        let obj = new Dzyx(jieshu)
+        obj.getletter();
+        obj.getmove()
+        obj.getxiuchhu()
+//        let main = $("main")
+//        for (let i = 0; i <= 10; i++) {
+//            let div = document.createElement("div");
+//            div.innerHTML = `<img src="img/img/${String.fromCharCode(Math.floor(Math.random() * 26 + 65))}.jpg" >`
+//            div.style.left=`Math.ceil(Math.random() *1000)px`
+//            main.appendChild(div)
+//        }
+
+
+    })
+</script>
